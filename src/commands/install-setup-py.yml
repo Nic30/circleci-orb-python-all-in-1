@@ -47,43 +47,44 @@ steps:
               pip install -r requirements.txt;
           fi;
   - when:
-      condition: <<parameters.from-pip>> 
+      condition: << parameters.from-pip >> 
       steps:
-         - run:
-           name: Install actual version from pip
-           command: pip install $PACKAGE_NAME <<parameters.build-args>>
-         - run: export PIP_GIT_TAG=$(pip show $PACKAGE_NAME | sed -n "s/^Version:\s*\(\S*\)$/\1/p")
-         - run: git fetch --depth <<parameters.depth>>
-         - run: git fetch --tags
-         - run: git checkout tags/"v$PIP_GIT_TAG"
+        - run:
+            name: Install actual version from pip
+            command: pip install $PACKAGE_NAME << parameters.build-args >>
+        - run: export PIP_GIT_TAG=$(pip show $PACKAGE_NAME | sed -n "s/^Version:\s*\(\S*\)$/\1/p")
+        - run: git fetch --depth <<parameters.depth>>
+        - run: git fetch --tags
+        - run: git checkout tags/"v$PIP_GIT_TAG"
 
   - unless:
       condition: <<parameters.from-pip>> 
       steps:
         - run:
-           name: Install actual version from git
-           command: |
-              if [ -f "doc/requirements.txt" ]; then
-                 pip install -r doc/requirements.txt;
-              fi;
-              python setup.py install <<parameters.build-args>> ;
+            name: Install actual version from git
+            command: |
+               if [ -f "doc/requirements.txt" ]; then
+                  pip install -r doc/requirements.txt;
+               fi;
+               python setup.py install <<parameters.build-args>> ;
   - when:
      condition: <<parameters.rm-package-dir>>
      steps:
         - run:
             name: rm local package dir (to prevent interference with installed version)
             command: rm -r `basename $PWD`
-
+ 
   - unless:
      condition: <<parameters.from-pip>> 
      steps:
        - run:
-          name: Patch file paths for coverage reports
-          command: |
-            export PYTHON_VERSION=$(python -c "import sys;v = sys.version_info;print('%d.%d.%d' % (v[0], v[1], v[2]))")  ;
-            export PYTHON_VERSION_SHORT=$(python -c "import sys;v = sys.version_info;print('%d.%d' % (v[0], v[1]))")     ;
-            DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages                                     ;
-            echo "PYTHON_VERSION=$PYTHON_VERSION PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT DIST_PACKAGES=$DIST_PACKAGES";
-            rm -rf $DIST_PACKAGES/$PACKAGE_NAME-*                                                                        ;
-            ln -s $PACKAGE_NAME $DIST_PACKAGES/$PACKAGE_NAME                                                             ;
-
+           name: Patch file paths for coverage reports
+           command: |
+             export PYTHON_VERSION=$(python -c "import sys;v = sys.version_info;print('%d.%d.%d' % (v[0], v[1], v[2]))")  ;
+             export PYTHON_VERSION_SHORT=$(python -c "import sys;v = sys.version_info;print('%d.%d' % (v[0], v[1]))")     ;
+             DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages                                     ;
+             echo "PYTHON_VERSION=$PYTHON_VERSION PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT DIST_PACKAGES=$DIST_PACKAGES";
+             rm -rf $DIST_PACKAGES/$PACKAGE_NAME-*                                                                        ;
+             ln -s $PACKAGE_NAME $DIST_PACKAGES/$PACKAGE_NAME                                                             ;
+ 
+ 
