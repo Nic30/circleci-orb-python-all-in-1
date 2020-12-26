@@ -6,9 +6,7 @@ description: >
   * code coverage measuring and upload to coveralls.io
   * testing using tox with automatic JUnuit xml for circle-ci
   * deploy to pypi
-  
+
 display:
   home_url: "https://github.com/Nic30/circleci-python-pypi-coveralls"
   source_url: "https://github.com/Nic30/circleci-python-pypi-coveralls"
-
-

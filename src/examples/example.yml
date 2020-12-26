@@ -6,7 +6,7 @@ description: >
 usage:
   version: 2.1
   orbs:
-    py: Nic30/python-all-in-1@0.0.1
+    py: nic30/python-all-in-1@0.0.1
     python: circleci/python@0.2.1
   jobs:
     install-and-test:
@@ -24,12 +24,12 @@ usage:
   workflows:
     main:
       jobs:
-      - install-and-test
-      - deploy:
-         requires:
-           - install-and-test
-         filters:
-           tags:
-             only: /v[0-9]+(\.[0-9]+)*/
-           branches:
-             ignore: /.*/
+        - install-and-test
+        - deploy:
+            requires:
+              - install-and-test
+            filters:
+              tags:
+                only: /v[0-9]+(\.[0-9]+)*/
+              branches:
+                ignore: /.*/

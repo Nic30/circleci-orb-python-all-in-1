@@ -4,8 +4,8 @@ orbs:
   # Replace this with your own!
   python-all-in-1: nic30/python-all-in-1@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
-  bats: circleci/bats@1.0
-  shellcheck: circleci/shellcheck@2.0
+  #bats: circleci/bats@1.0
+  #shellcheck: circleci/shellcheck@2.0
 
 # Pipeline Parameters
 ## These parameters are used internally by orb-tools. Skip to the Jobs section.
@@ -39,12 +39,12 @@ workflows:
     jobs:
       - orb-tools/lint # Lint Yaml files
       - orb-tools/pack # Pack orb source
-      - shellcheck/check:
-          dir: ./src/scripts
-          exclude: SC2148
+      #- shellcheck/check:
+      #    dir: ./src/scripts
+      #    exclude: SC2148
       # optional: Run BATS tests against your scripts
-      - bats/run:
-          path: ./src/tests
+      # - bats/run:
+      #     path: ./src/tests
       # If you accept building open source forks, protect your secrects behind a restricted context.
       # A job containing restricted context (which holds your orb publishing credentials) may only be accessed by a user with proper permissions.
       # An open source user may begin a pipeline with a PR, and once the pipeline is approved by an authorized user at this point, the pipeline will continue with the proper context permissions.
@@ -53,8 +53,8 @@ workflows:
           requires:
             - orb-tools/lint
             - orb-tools/pack
-            - bats/run
-            - shellcheck/check
+            # - bats/run
+            # - shellcheck/check
       # Publish development version(s) of the orb.
       - orb-tools/publish-dev:
           orb-name: nic30/python-all-in-1
@@ -93,6 +93,6 @@ workflows:
             - integration-test-1
           filters:
             branches:
-              only: 
+              only:
                 - master
                 - main
