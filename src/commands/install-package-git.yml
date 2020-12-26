@@ -1,0 +1,29 @@
+description: >
+  Install other python package from git and optionally install requirements.txt, doc/requirements.txt from that git.
+
+parameters:
+  url:
+    type: string
+    default: ""
+    description: "url of the repository without .git at the end"
+  cwd:
+    type: string
+    default: ".."
+    description: "path where the git should be downloaded, default .. because we want to avoid interference"
+
+steps:
+  - run:
+      command: |
+         pushd <<parameters.cwd>> ;
+         git clone --depth=1 <<parameters.url>>.git ;
+         export SUB_PACKAGE_NAME=`basename <<parameters.url>>` ;
+         pushd $SUB_PACKAGE_NAME ;
+         if [ -f "requirements.txt" ]; then
+             pip install -r requirements.txt;
+         fi;
+         if [ -f "doc/requirements.txt" ]; then
+            pip install --user -r doc/requirements.txt ;
+         fi;
+         python setup.py install --user ;
+         popd;
+         popd;

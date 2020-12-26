@@ -1,0 +1,47 @@
+description: >
+  Run tests and optionally measure and upload the coverage to the coveralls.io.
+
+parameters:
+  testsuite:
+    type: string
+    default: ""
+    description: "The name of python module which shoudl execute all the tests, if left empty <package_name>.tests.all is used"
+  coverage:
+    type: boolean
+    default: true
+    description: "If false the coverage is not measured uploaded"
+
+
+steps:
+  - run:
+      name: Init variables
+      command: |
+        export PACKAGE_NAME=`basename $PWD`
+        if [ "<<parameters.testsuite>>" != "" ]; then
+           export TEST_SUITE_PATH="<<parameters.testsuite>>";
+        elif [ -f "tests/all.py" ]; then
+            export TEST_SUITE_PATH=tests.all
+        elif [ -f "$PACKAGE_NAME/tests/all.py" ]; then
+           export TEST_SUITE_PATH="$PACKAGE_NAME.tests.all"
+        else
+           echo "Testsuite was not specified and can not find it automatically" && false
+        fi
+
+  - when:
+      condition: << parameters.coverage >>
+      steps:
+      - run: pip install coverage coveralls xmlrunner --user
+      - run:
+          name: Run test and collect coverage
+          command: coverage run --source=$PACKAGE_NAME -m $TEST_SUITE_PATH --with-xunit
+      - run:
+          name: Upload coverage to coveralls.io
+          command: coveralls
+
+  - unless:
+      condition: << parameters.coverage >>
+      steps:
+      - run: python -m $TEST_SUITE_PATH --with-xunit
+          
+  - store_test_results:
+      path: test-reports

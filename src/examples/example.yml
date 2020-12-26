@@ -1,13 +1,35 @@
 description: >
-  Sample example description.
-# Provide a use-case based example for using this orb.
-# Everything in the `usage` section will be displayed in the orb registry.
-# Comments are not retained.
+  Install python package run tests, upload coverage reports, store test result xml and optionally
+  deploy the package to pypi (on tag).
+  To deploy the package on tag you need to set PYPI_USER, PYPI_PASSWORD in your environment.
+
 usage:
   version: 2.1
   orbs:
-    <orb-name>: <namespace>/<orb-name>@1.2.3
+    py: Nic30/python-all-in-1@0.0.1
+    python: circleci/python@0.2.1
+  jobs:
+    install-and-test:
+      executor: python/default
+      steps:
+        - checkout
+        - py/install-setup-py
+        - py/test-and-coverage
+
+    deploy:
+      executor: python/default
+      steps:
+        - py/deploy-pypi
+
   workflows:
-    use-my-orb:
+    main:
       jobs:
-        - <orb-name>/<job-name>
+      - install-and-test
+      - deploy:
+         requires:
+           - install-and-test
+         filters:
+           tags:
+             only: /v[0-9]+(\.[0-9]+)*/
+           branches:
+             ignore: /.*/

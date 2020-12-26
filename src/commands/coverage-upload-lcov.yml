@@ -1,0 +1,10 @@
+description: >
+  Install this package from pip and checkout the tag used for latest pip version.
+
+steps:
+  - run:
+      name: Filter lcov outputs and upload it to coveralls.io
+      command: |
+          lcov --compat-libtool --directory . --capture --output-file coverage.info.raw ;
+          lcov --remove coverage.info.raw -o coverage.info '/usr/*' '*_skbuild/*' ;
+          coveralls-lcov coverage.info ;
