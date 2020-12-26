@@ -24,7 +24,7 @@ steps:
         elif [ -f "$PACKAGE_NAME/tests/all.py" ]; then
            export TEST_SUITE_PATH="$PACKAGE_NAME.tests.all"
         else
-           echo "Testsuite was not specified and can not find it automatically" && false
+           echo "Testsuite was not specified and can not find it automatically (PACKAGE_NAME=$PACKAGE_NAME)" && false
         fi
 
   - when:
