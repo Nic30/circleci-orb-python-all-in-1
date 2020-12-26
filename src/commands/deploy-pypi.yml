@@ -3,18 +3,18 @@ description: >
 
 steps:
    - run:
-       command: pip install twine
+        command: pip install twine
    - run:
-      name: Init .pypirc
-      command: |
-        echo -e "[pypi]" >> ~/.pypirc
-        echo -e "username = $PYPI_USER" >> ~/.pypirc
-        echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+        name: Init .pypirc
+        command: |
+          echo -e "[pypi]" >> ~/.pypirc
+          echo -e "username = $PYPI_USER" >> ~/.pypirc
+          echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
    - run:
-      name: Make packages
-      command: |
-        python setup.py sdist
-        python setup.py bdist_wheel
+        name: Make packages
+        command: |
+          python setup.py sdist
+          python setup.py bdist_wheel
    - run:
-      name: Upload to pypi
-      command: twine upload dist/*
+        name: Upload to pypi
+        command: twine upload dist/*

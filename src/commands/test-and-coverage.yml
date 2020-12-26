@@ -30,18 +30,18 @@ steps:
   - when:
       condition: << parameters.coverage >>
       steps:
-      - run: pip install coverage coveralls xmlrunner --user
-      - run:
-          name: Run test and collect coverage
-          command: coverage run --source=$PACKAGE_NAME -m $TEST_SUITE_PATH --with-xunit
-      - run:
-          name: Upload coverage to coveralls.io
-          command: coveralls
+        - run: pip install coverage coveralls xmlrunner --user
+        - run:
+            name: Run test and collect coverage
+            command: coverage run --source=$PACKAGE_NAME -m $TEST_SUITE_PATH --with-xunit
+        - run:
+            name: Upload coverage to coveralls.io
+            command: coveralls
 
   - unless:
       condition: << parameters.coverage >>
       steps:
-      - run: python -m $TEST_SUITE_PATH --with-xunit
-          
+        - run: python -m $TEST_SUITE_PATH --with-xunit
+
   - store_test_results:
       path: test-reports
