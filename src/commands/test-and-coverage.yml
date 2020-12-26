@@ -18,14 +18,15 @@ steps:
       command: |
         export PACKAGE_NAME=${CIRCLE_PROJECT_REPONAME}
         if [ "<<parameters.testsuite>>" != "" ]; then
-           export TEST_SUITE_PATH="<<parameters.testsuite>>";
+           TEST_SUITE_PATH="<<parameters.testsuite>>";
         elif [ -f "tests/all.py" ]; then
-            export TEST_SUITE_PATH=tests.all
+           export TEST_SUITE_PATH=tests.all
         elif [ -f "$PACKAGE_NAME/tests/all.py" ]; then
-           export TEST_SUITE_PATH="$PACKAGE_NAME.tests.all"
+           TEST_SUITE_PATH="$PACKAGE_NAME.tests.all"
         else
            echo "Testsuite was not specified and can not find it automatically (PACKAGE_NAME=$PACKAGE_NAME)" && false
-        fi
+        fi;
+        echo export TEST_SUITE_PATH="$TEST_SUITE_PATH" >> "$BASH_ENV"
 
   - when:
       condition: << parameters.coverage >>
