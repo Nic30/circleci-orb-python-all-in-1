@@ -16,7 +16,7 @@ steps:
       command: |
          pushd <<parameters.cwd>> ;
          git clone --depth=1 <<parameters.url>>.git ;
-         export SUB_PACKAGE_NAME=`basename <<parameters.url>>` ;
+         SUB_PACKAGE_NAME=`basename <<parameters.url>>` ;
          pushd $SUB_PACKAGE_NAME ;
          if [ -f "requirements.txt" ]; then
              pip install -r requirements.txt;
