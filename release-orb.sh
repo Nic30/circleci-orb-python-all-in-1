@@ -1,4 +1,5 @@
 #!/bin/bash
+# Attention: the relese should be uploaded by circleci and usage of this script is not required
 command -v circleci >/dev/null 2>&1 || { echo >&2 "I require circleci but it's not installed.  Aborting."; exit 1; }
 
 commit=$(git log -n1 --pretty='%h')
@@ -17,4 +18,6 @@ echo "Validating..."
 make orb-validate || { echo 'Orb failed to validate.' ; exit 1; }
 
 echo "Releasing..."
-circleci orb publish orb.yml "Nic30/circleci-python-install-test-coverage-pypi@${tag:1}" || { echo 'Orb release failed.' ; exit 1; }
+# circleci orb create "nic30/python-all-in-1"
+# circleci orb publish orb.yml "nic30/python-all-in-1@dev:alpha"
+circleci orb publish orb.yml "nic30/python-all-in-1@${tag:1}" || { echo 'Orb release failed.' ; exit 1; }
