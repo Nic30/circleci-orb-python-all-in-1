@@ -16,7 +16,7 @@ steps:
   - run:
       name: Init variables
       command: |
-        export PACKAGE_NAME=`basename $PWD`
+        export PACKAGE_NAME=${CIRCLE_PROJECT_REPONAME}
         if [ "<<parameters.testsuite>>" != "" ]; then
            export TEST_SUITE_PATH="<<parameters.testsuite>>";
         elif [ -f "tests/all.py" ]; then
@@ -24,7 +24,7 @@ steps:
         elif [ -f "$PACKAGE_NAME/tests/all.py" ]; then
            export TEST_SUITE_PATH="$PACKAGE_NAME.tests.all"
         else
-           echo "Testsuite was not specified and can not find it automatically" && false
+           echo "Testsuite was not specified and can not find it automatically (PACKAGE_NAME=$PACKAGE_NAME)" && false
         fi
 
   - when:
