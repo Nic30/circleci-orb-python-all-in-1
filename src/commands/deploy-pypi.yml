@@ -1,0 +1,20 @@
+description: >
+  Upload the python package to pypi. Note that you have to provide PYPI_USER, PYPI_PASSWORD.
+
+steps:
+   - run:
+       command: pip install twine
+   - run:
+      name: Init .pypirc
+      command: |
+        echo -e "[pypi]" >> ~/.pypirc
+        echo -e "username = $PYPI_USER" >> ~/.pypirc
+        echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+   - run:
+      name: Make packages
+      command: |
+        python setup.py sdist
+        python setup.py bdist_wheel
+   - run:
+      name: Upload to pypi
+      command: twine upload dist/*

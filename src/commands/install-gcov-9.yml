@@ -1,0 +1,10 @@
+description: >
+  Install gcov-9, lcov, coveralls-lcov
+
+steps:
+  - run:
+      name: Install gcov-9, lcov, coveralls-lcov
+      command: |
+         sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-9 10;
+         sudo apt install -y lcov;
+         sudo gem install coveralls-lcov;

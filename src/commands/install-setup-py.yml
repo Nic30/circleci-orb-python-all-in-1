@@ -1,0 +1,89 @@
+description: >
+  Install this package from pip and checkout the tag used for latest pip version. Optionally install requirements.txt, doc/requirements.txt.
+
+parameters:
+  depth:
+    type: integer
+    default: 500
+    description: "Depth of git clone for tag search"
+  from-pip:
+    type: boolean
+    default: false
+    description: "If true install package from pip instead and checkout the last tag for pip version."
+  build-args:
+    type: string
+    default: "--user"
+    description: "extra parameters for setup.py install/build"
+  rm-package-dir:
+    type: boolean
+    default: false
+    description: "If true a local directory of a package is deleted to prevent interference with installed version"
+#  with-deploy:
+#    type: boolean
+#    default: true
+#    description: "If true a twine will be installed for upload to pypi."
+#  with-coverage-coveralls:
+#    type: boolean
+#    default: true
+#    description: "If true a coveralls will be installed for upload of coverage results."
+#  with-coverage-coverage:
+#    type: boolean
+#    default: true
+#    description: "If true a coverage will be installed for upload of coverage results."
+#  with-test:
+#    type: boolean
+#    default: true
+#    description: "If true a xmlrunner will be installed."
+    
+
+steps:
+  - run:
+      name: Init variables
+      command: export PACKAGE_NAME=`basename $PWD`
+  - run:
+      name: Install prebuild deps
+      command: |
+          if [ -f "requirements.txt" ]; then
+              pip install -r requirements.txt;
+          fi;
+  - when:
+      condition: <<parameters.from-pip>> 
+      steps:
+         - run:
+           name: Install actual version from pip
+           command: pip install $PACKAGE_NAME <<parameters.build-args>>
+         - run: export PIP_GIT_TAG=$(pip show $PACKAGE_NAME | sed -n "s/^Version:\s*\(\S*\)$/\1/p")
+         - run: git fetch --depth <<parameters.depth>>
+         - run: git fetch --tags
+         - run: git checkout tags/"v$PIP_GIT_TAG"
+
+  - unless:
+      condition: <<parameters.from-pip>> 
+      steps:
+        - run:
+           name: Install actual version from git
+           command: |
+              if [ -f "doc/requirements.txt" ]; then
+                 pip install -r doc/requirements.txt;
+              fi;
+              python setup.py install <<parameters.build-args>> ;
+  - when:
+     condition: <<parameters.rm-package-dir>>
+     steps:
+        - run:
+            name: rm local package dir (to prevent interference with installed version)
+            command: rm -r `basename $PWD`
+
+  - unless:
+     condition: <<parameters.from-pip>> 
+     steps:
+       - run:
+          name: Patch file paths for coverage reports
+          command: |
+            export PYTHON_VERSION=$(python -c "import sys;v = sys.version_info;print('%d.%d.%d' % (v[0], v[1], v[2]))")  ;
+            export PYTHON_VERSION_SHORT=$(python -c "import sys;v = sys.version_info;print('%d.%d' % (v[0], v[1]))")     ;
+            DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages                                     ;
+            echo "PYTHON_VERSION=$PYTHON_VERSION PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT DIST_PACKAGES=$DIST_PACKAGES";
+            rm -rf $DIST_PACKAGES/$PACKAGE_NAME-*                                                                        ;
+            ln -s $PACKAGE_NAME $DIST_PACKAGES/$PACKAGE_NAME                                                             ;
+
