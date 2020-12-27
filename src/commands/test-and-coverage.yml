@@ -46,7 +46,7 @@ steps:
               echo "PYTHON_VERSION=$PYTHON_VERSION"
               echo "PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT"
               echo "DIST_PACKAGES=$DIST_PACKAGES INSTALL_PATH=$INSTALL_PATH"
-              python -c \"                                                                \
+              python -c "                                                                \
               import sqlite3                                                              \
               ORIG_PREFIX = '$INSTALL_PATH'                                               \
               NEW_PREFIX = '$CWS'                                                         \
@@ -59,7 +59,7 @@ steps:
                   print(id_, path, '->', new_path)                                        \
                   cursor.execute('update file set path = ? where id = ?', (new_path, id_))\
               connection.close()                                                          \
-              \"
+              "
         - run:
             name: Upload coverage to coveralls.io
             command: coveralls
