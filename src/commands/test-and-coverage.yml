@@ -36,7 +36,7 @@ steps:
         - run:
             name: Run test and collect coverage
             command: |
-              coverage run --source=$MODULE_NAME -m $TEST_SUITE_PATH --with-xunit
+              coverage run --source=$MODULE_NAME -m $TEST_SUITE_PATH
         - run:
             name: Convert paths of installed package to paths in git in coverage reports
             command: |
@@ -74,7 +74,5 @@ steps:
   - unless:
       condition: << parameters.coverage >>
       steps:
-        - run: python -m $TEST_SUITE_PATH --with-xunit
+        - run: python -m $TEST_SUITE_PATH
 
-  - store_test_results:
-      path: test-reports
