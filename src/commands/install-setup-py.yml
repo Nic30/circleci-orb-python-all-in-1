@@ -83,7 +83,7 @@ steps:
               PYTHON_VERSION_SHORT=$(python -c "import sys;v = sys.version_info;print('%d.%d' % (v[0], v[1]))")     ;
               DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages                                     ;
               echo "PYTHON_VERSION=$PYTHON_VERSION PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT DIST_PACKAGES=$DIST_PACKAGES";
-              rm -rf $PACKAGE_NAME                                                                                          ;
+              rm -rf $PACKAGE_NAME                                                                                         ;
               mv $DIST_PACKAGES/$PACKAGE_NAME-* $PACKAGE_NAME                                                              ;
               rm -rf $DIST_PACKAGES/$PACKAGE_NAME-*                                                                        ;
               ln -s $PACKAGE_NAME $DIST_PACKAGES/$PACKAGE_NAME                                                             ;
