@@ -27,6 +27,7 @@ steps:
            echo "Testsuite was not specified and can not find it automatically (PACKAGE_NAME=$PACKAGE_NAME)" && false
         fi;
         echo export TEST_SUITE_PATH="$TEST_SUITE_PATH" >> "$BASH_ENV"
+        echo export PACKAGE_NAME="$PACKAGE_NAME" >> "$BASH_ENV"
 
   - when:
       condition: << parameters.coverage >>
