@@ -32,7 +32,7 @@ steps:
   - when:
       condition: << parameters.coverage >>
       steps:
-        - run: pip install coverage coveralls xmlrunner --user
+        - run: pip install coverage coveralls --user
         - run:
             name: Run test and collect coverage
             command: |
