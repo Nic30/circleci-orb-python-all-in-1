@@ -28,7 +28,7 @@ steps:
         fi;
         echo export TEST_SUITE_PATH="$TEST_SUITE_PATH" >> "$BASH_ENV"
         echo export PACKAGE_NAME="$PACKAGE_NAME" >> "$BASH_ENV"
-        echo export MODULE_NAME=`echo $PACKAGE_NAME | sed -r 's/-/_/g'`
+        echo export MODULE_NAME=`echo $PACKAGE_NAME | sed -r 's/-/_/g'` >> "$BASH_ENV"
   - when:
       condition: << parameters.coverage >>
       steps:
