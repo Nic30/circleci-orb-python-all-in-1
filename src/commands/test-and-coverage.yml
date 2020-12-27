@@ -58,7 +58,7 @@ steps:
                   new_path = path.replace(ORIG_PREFIX, NEW_PREFIX)                        \n\
                   print(id_, path, '->', new_path)                                        \n\
                   cursor.execute('update file set path = ? where id = ?', (new_path, id_))\n\
-              connection.close()\n" | python                                                           
+              connection.close()\n" | python
         - run:
             name: Upload coverage to coveralls.io
             command: coveralls
