@@ -7,4 +7,4 @@ steps:
       command: |
          # sudo update-alternatives --install /usr/bin/gcov gcov /usr/bin/gcov-9 10;
          sudo apt install -y lcov rubygems;
-         gem install coveralls-lcov;
+         sudo gem install coveralls-lcov;
