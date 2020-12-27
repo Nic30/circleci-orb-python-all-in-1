@@ -20,7 +20,7 @@ steps:
         if [ "<<parameters.testsuite>>" != "" ]; then
            TEST_SUITE_PATH="<<parameters.testsuite>>";
         elif [ -f "tests/all.py" ]; then
-           export TEST_SUITE_PATH=tests.all
+           TEST_SUITE_PATH=tests.all
         elif [ -f "$PACKAGE_NAME/tests/all.py" ]; then
            TEST_SUITE_PATH="$PACKAGE_NAME.tests.all"
         else
