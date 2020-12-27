@@ -46,19 +46,19 @@ steps:
               echo "PYTHON_VERSION=$PYTHON_VERSION"
               echo "PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT"
               echo "DIST_PACKAGES=$DIST_PACKAGES INSTALL_PATH=$INSTALL_PATH"
-              python -c "                                                                \
-              import sqlite3                                                              \
-              ORIG_PREFIX = '$INSTALL_PATH'                                               \
-              NEW_PREFIX = '$CWS'                                                         \
-              connection = sqlite3.connect('.coverage')                                   \
-              cursor = connection.cursor()                                                \
-              cursor.execute('select * from file')                                        \
-              file_list = cursor.fetchall()                                               \
-              for id_, path in file_list:                                                 \
-                  new_path = path.replace(ORIG_PREFIX, NEW_PREFIX)                        \
-                  print(id_, path, '->', new_path)                                        \
-                  cursor.execute('update file set path = ? where id = ?', (new_path, id_))\
-              connection.close()                                                          \
+              python -c "                                                                 \n\
+              import sqlite3                                                              \n\
+              ORIG_PREFIX = '$INSTALL_PATH'                                               \n\
+              NEW_PREFIX = '$CWS'                                                         \n\
+              connection = sqlite3.connect('.coverage')                                   \n\
+              cursor = connection.cursor()                                                \n\
+              cursor.execute('select * from file')                                        \n\
+              file_list = cursor.fetchall()                                               \n\
+              for id_, path in file_list:                                                 \n\
+                  new_path = path.replace(ORIG_PREFIX, NEW_PREFIX)                        \n\
+                  print(id_, path, '->', new_path)                                        \n\
+                  cursor.execute('update file set path = ? where id = ?', (new_path, id_))\n\
+              connection.close()                                                          \n\
               "
         - run:
             name: Upload coverage to coveralls.io
