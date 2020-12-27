@@ -50,7 +50,7 @@ steps:
               DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages
               if [ -d "$DIST_PACKAGES/$MODULE_NAME" ]; then
                 # egg with zip_safe=True, there actually tree files/folders package package-0.1-py3.9.egg package-0.5.dist-info
-                INSTALL_PATH="$DIST_PACKAGES/$MODULE_NAME";
+                INSTALL_PATH=`realpath $DIST_PACKAGES/$MODULE_NAME-*.egg`;
               else
                 INSTALL_PATH=`realpath $DIST_PACKAGES/$MODULE_NAME-*`;
               fi
