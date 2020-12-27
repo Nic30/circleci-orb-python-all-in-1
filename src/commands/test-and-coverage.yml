@@ -44,7 +44,7 @@ steps:
               DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages
               INSTALL_PATH=$DIST_PACKAGES/$PACKAGE_NAME-*
               echo "PYTHON_VERSION=$PYTHON_VERSION"
-              echo "PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT
+              echo "PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT"
               echo "DIST_PACKAGES=$DIST_PACKAGES INSTALL_PATH=$INSTALL_PATH"
               python -c \"                                                                \
               import sqlite3                                                              \
