@@ -35,7 +35,9 @@ steps:
         - run: pip install coverage coveralls xmlrunner --user
         - run:
             name: Run test and collect coverage
-            command: coverage run --source=$PACKAGE_NAME -m $TEST_SUITE_PATH --with-xunit
+            command: |
+              MODULE_NAME=`echo $PACKAGE_NAME | sed -r 's/-/_/g'`
+              coverage run --source=$PACKAGE_NAME -m $TEST_SUITE_PATH --with-xunit
         - run:
             name: Convert paths of installed package to paths in git in coverage reports
             command: |
