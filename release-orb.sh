@@ -21,3 +21,5 @@ echo "Releasing..."
 # circleci orb create "nic30/python-all-in-1"
 # circleci orb publish orb.yml "nic30/python-all-in-1@dev:alpha"
 circleci orb publish orb.yml "nic30/python-all-in-1@${tag:1}" || { echo 'Orb release failed.' ; exit 1; }
+
+# to get latest release use circleci orb info nic30/python-all-in-1
