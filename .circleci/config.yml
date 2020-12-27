@@ -59,7 +59,10 @@ workflows:
       - orb-tools/publish-dev:
           orb-name: nic30/python-all-in-1
           context: orb-publishing # A restricted context containing your private publishing credentials. Will only execute if approved by an authorized user.
-          requires: [hold-for-dev-publish]
+          requires: 
+            - orb-tools/lint
+            - orb-tools/pack
+      #    [hold-for-dev-publish]
       # Trigger an integration workflow to test the
       # dev:${CIRCLE_SHA1:0:7} version of your orb
       - orb-tools/trigger-integration-tests-workflow:
