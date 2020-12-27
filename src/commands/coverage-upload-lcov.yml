@@ -5,6 +5,9 @@ steps:
   - run:
       name: Filter lcov outputs for scikit-build and upload it to coveralls.io
       command: |
+          if [ -d "removed_because_of_coverage_$PACKAGE_NAME" ]; then
+             mv "removed_because_of_coverage_$PACKAGE_NAME" $PACKAGE_NAME;
+          fi
           lcov --compat-libtool --directory . --capture --output-file coverage.info.raw ;
           lcov --remove coverage.info.raw -o coverage.info '/usr/*' '*_skbuild/*' ;
           coveralls-lcov coverage.info ;

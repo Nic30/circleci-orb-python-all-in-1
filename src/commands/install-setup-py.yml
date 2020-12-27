@@ -16,7 +16,7 @@ parameters:
     description: "extra parameters for setup.py install/build"
   rm-package-dir:
     type: boolean
-    default: false
+    default: true
     description: "If true a local directory of a package is deleted to prevent interference with installed version"
 #  with-deploy:
 #    type: boolean
@@ -71,12 +71,4 @@ steps:
       steps:
         - run:
             name: rm local package dir (to prevent interference with installed version)
-            command: rm -r ${CIRCLE_PROJECT_REPONAME}
-
-  - unless:
-      condition: <<parameters.from-pip>>
-      steps:
-        - run:
-            name: Patch file paths for coverage reports. (replace module in git with the installed version and link it back to site-packages)
-            command: |
-              rm -rf $PACKAGE_NAME                                                                                         ;
+            command: mv $PACKAGE_NAME "removed_because_of_coverage_$PACKAGE_NAME"

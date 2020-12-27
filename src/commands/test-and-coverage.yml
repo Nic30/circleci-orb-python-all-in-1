@@ -38,6 +38,11 @@ steps:
             command: |
               coverage run --source=$MODULE_NAME -m $TEST_SUITE_PATH
         - run:
+            command: |
+               if [ -d "removed_because_of_coverage_$PACKAGE_NAME" ]; then
+                  mv "removed_because_of_coverage_$PACKAGE_NAME" $PACKAGE_NAME;
+               fi
+        - run:
             name: Convert paths of installed package to paths in git in coverage reports
             command: |
               PYTHON_VERSION=$(python -c "import sys;v = sys.version_info;print('%d.%d.%d' % (v[0], v[1], v[2]))")
