@@ -10,6 +10,8 @@ steps:
           if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
              mv "removed_because_of_coverage_$MODULE_NAME" $MODULE_NAME;
           fi
-          lcov --compat-libtool --directory . --capture --output-file coverage.info.raw ;
-          lcov --remove coverage.info.raw -o coverage.info '/usr/*' '*_skbuild/*' ;
+          lcov --compat-libtool --directory . --capture --output-file coverage.info.raw;
+          lcov --remove coverage.info.raw -o coverage.info '/usr/*' '*_skbuild/*';
+          sed -i 's/\/home\/circleci\/project\///g' coverage.info;
+          sed -i 's/\/home\/circleci\///g' coverage.info;
           coveralls-lcov coverage.info ;
