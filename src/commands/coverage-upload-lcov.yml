@@ -1,12 +1,14 @@
 description: >
   Install this package from pip and checkout the tag used for latest pip version.
+  Expects MODULE_NAME variable to be set.
+
 
 steps:
   - run:
       name: Filter lcov outputs for scikit-build and upload it to coveralls.io
       command: |
-          if [ -d "removed_because_of_coverage_$PACKAGE_NAME" ]; then
-             mv "removed_because_of_coverage_$PACKAGE_NAME" $PACKAGE_NAME;
+          if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
+             mv "removed_because_of_coverage_$MODULE_NAME" $MODULE_NAME;
           fi
           lcov --compat-libtool --directory . --capture --output-file coverage.info.raw ;
           lcov --remove coverage.info.raw -o coverage.info '/usr/*' '*_skbuild/*' ;

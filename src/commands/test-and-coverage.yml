@@ -1,5 +1,6 @@
 description: >
   Run tests and optionally measure and upload the coverage to the coveralls.io.
+  Expects MODULE_NAME, PACKAGE_NAME variables to be set.
 
 parameters:
   testsuite:
@@ -27,8 +28,6 @@ steps:
            echo "Testsuite was not specified and can not find it automatically (PACKAGE_NAME=$PACKAGE_NAME)" && false
         fi;
         echo export TEST_SUITE_PATH="$TEST_SUITE_PATH" >> "$BASH_ENV"
-        echo export PACKAGE_NAME="$PACKAGE_NAME" >> "$BASH_ENV"
-        echo export MODULE_NAME=`echo $PACKAGE_NAME | sed -r 's/-/_/g'` >> "$BASH_ENV"
   - when:
       condition: << parameters.coverage >>
       steps:
@@ -39,8 +38,8 @@ steps:
               coverage run --source=$MODULE_NAME -m $TEST_SUITE_PATH
         - run:
             command: |
-               if [ -d "removed_because_of_coverage_$PACKAGE_NAME" ]; then
-                  mv "removed_because_of_coverage_$PACKAGE_NAME" $PACKAGE_NAME;
+               if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
+                  mv "removed_because_of_coverage_$MODULE_NAME" $MODULE_NAME;
                fi
         - run:
             name: Convert paths of installed package to paths in git in coverage reports
