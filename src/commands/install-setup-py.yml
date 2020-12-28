@@ -40,7 +40,8 @@ steps:
       name: Init variables
       command: |
         echo export PACKAGE_NAME=${CIRCLE_PROJECT_REPONAME} >> "$BASH_ENV"
-        echo export MODULE_NAME=`echo $PACKAGE_NAME | sed -r 's/-/_/g'` >> "$BASH_ENV"
+        MODULE_NAME=`echo $PACKAGE_NAME | sed -r 's/-/_/g'`
+        echo export MODULE_NAME=$MODULE_NAME >> "$BASH_ENV"
 
   - run:
       name: Install prebuild deps
