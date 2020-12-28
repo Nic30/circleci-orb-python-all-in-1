@@ -1,6 +1,6 @@
 description: >
   Install this package from pip and checkout the tag used for latest pip version.
-  Expects MODULE_NAME variable to be set.
+  Expects MODULE_NAME (shell env. variable) and COVERALLS_REPO_TOKEN (build env. variable) variable to be set.
 
 
 steps:
@@ -14,4 +14,4 @@ steps:
           lcov --remove coverage.info.raw -o coverage.info '/usr/*' '*_skbuild/*';
           sed -i 's/\/home\/circleci\/project\///g' coverage.info;
           sed -i 's/\/home\/circleci\///g' coverage.info;
-          coveralls-lcov coverage.info ;
+          coveralls-lcov coverage.info --repo-token ${COVERALLS_REPO_TOKEN};
