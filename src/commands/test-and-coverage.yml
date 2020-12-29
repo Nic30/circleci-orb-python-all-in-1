@@ -35,7 +35,7 @@ steps:
         - run:
             name: Run test and collect coverage
             command: |
-              coverage run --source=$MODULE_NAME -m $TEST_SUITE_PATH
+              coverage run -m $TEST_SUITE_PATH
         - run:
             command: |
                if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
@@ -74,6 +74,9 @@ steps:
         - run:
             name: Upload coverage to coveralls.io
             command: coveralls
+        #- run:
+        #    name: Upload coverage to codecov.io
+        #    command: codecov
 
   - unless:
       condition: << parameters.coverage >>
