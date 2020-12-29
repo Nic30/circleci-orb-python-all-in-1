@@ -44,21 +44,15 @@ steps:
         - run:
             name: Convert paths of installed package to paths in git in coverage reports
             command: |
-              PYTHON_VERSION=$(python -c "import sys;v = sys.version_info;print('%d.%d.%d' % (v[0], v[1], v[2]))")
-              PYTHON_VERSION_SHORT=$(python -c "import sys;v = sys.version_info;print('%d.%d' % (v[0], v[1]))")
-              DIST_PACKAGES=$HOME/.local/lib/python$PYTHON_VERSION_SHORT/site-packages
               # egg with zip_safe=True, there actually tree files/folders
-              # package package-0.1-py3.9.egg package-0.5.dist-info
-              INSTALL_PATH_EGG=`realpath $DIST_PACKAGES/$MODULE_NAME-*.egg`;
-              INSTALL_PATH=`realpath $DIST_PACKAGES/$MODULE_NAME-*`;
-              echo "PYTHON_VERSION=$PYTHON_VERSION"
-              echo "PYTHON_VERSION_SHORT=$PYTHON_VERSION_SHORT"
-              echo "DIST_PACKAGES=$DIST_PACKAGES"
-              echo "INSTALL_PATH=$INSTALL_PATH"
-              echo "INSTALL_PATH_EGG=$INSTALL_PATH_EGG"
+              # package package-0.1-py3.9.egg package-0.1.dist-info
               echo -e "\
               import sqlite3                                                              \n\
-              ORIG_PREFIX = ['$INSTALL_PATH/', '$INSTALL_PATH_EGG/']                      \n\
+              import os                                                                   \n\
+              import $MODULE_NAME                                                         \n\
+                                                                                          \n\
+              ORIG_PREFIX = [os.path.dirname($MODULE_NAME.__file__), ]                    \n\
+              print(ORIG_PREFIX)                                                          \n\
               NEW_PREFIX = ''                                                             \n\
               connection = sqlite3.connect('.coverage')                                   \n\
               cursor = connection.cursor()                                                \n\
