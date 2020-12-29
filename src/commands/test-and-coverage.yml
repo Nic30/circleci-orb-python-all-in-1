@@ -48,7 +48,7 @@ steps:
                                                                                           \n\
               ORIG_PREFIX = [os.path.dirname($MODULE_NAME.__file__), ]                    \n\
               print(ORIG_PREFIX)                                                          \n\
-              NEW_PREFIX = ''                                                             \n\
+              NEW_PREFIX = '$MODULE_NAME'                                                 \n\
               connection = sqlite3.connect('.coverage')                                   \n\
               cursor = connection.cursor()                                                \n\
               cursor.execute('select * from file')                                        \n\
