@@ -70,6 +70,7 @@ steps:
                       new_path = new_path.replace(op, NEW_PREFIX)                         \n\
                   print(id_, path, '->', new_path)                                        \n\
                   cursor.execute('update file set path = ? where id = ?', (new_path, id_))\n\
+              connection.commit()                                                         \n\
               connection.close()\n" | python
 
         - run:
