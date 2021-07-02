@@ -1,6 +1,15 @@
 description: >
   Upload the python package to pypi if git tag is in format ^v[0-9]+(\\.[0-9]+)*$.
   Note that you have to provide PYPI_USER, PYPI_PASSWORD.
+parameters:
+  bin:
+    type: boolean
+    default: true
+    description: "generate binary wheel package using setup.py bdist_wheel"
+  src:
+    type: boolean
+    default: true
+    description: "generate source package using setup.py sdist"
 
 steps:
    - run:
@@ -19,8 +28,12 @@ steps:
               echo -e "username = $PYPI_USER" >> ~/.pypirc
               echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
               # Make packages
-              python setup.py sdist
-              python setup.py bdist_wheel
+              if [ "<< parameters.src >>" == "true" ]; then
+                  python setup.py sdist
+              fi
+              if [ "<< parameters.bin >>" == "true" ]; then
+                  python setup.py bdist_wheel
+              fi
               # Upload to pypi
               twine upload dist/*
           else

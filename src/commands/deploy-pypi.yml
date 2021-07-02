@@ -1,5 +1,14 @@
 description: >
   Upload the python package to pypi. Note that you have to provide PYPI_USER, PYPI_PASSWORD.
+parameters:
+  bin:
+    type: boolean
+    default: true
+    description: "generate binary wheel package using setup.py bdist_wheel"
+  src:
+    type: boolean
+    default: true
+    description: "generate source package using setup.py sdist"
 
 steps:
    - run:
@@ -11,13 +20,23 @@ steps:
           echo -e "username = $PYPI_USER" >> ~/.pypirc
           echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
    - run:
-        name: Make packages
+        name: Prepare files
         command: |
           if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
               mv "removed_because_of_coverage_$MODULE_NAME" "$MODULE_NAME"
           fi
-          python setup.py sdist
-          python setup.py bdist_wheel
+   - when:
+      condition: << parameters.src >>
+      steps:
+        - run:
+           name: Make src packages
+           command: python setup.py sdist      
+   - when:
+      condition: << parameters.bin >>
+      steps:
+        - run:
+           name: Make bin packages
+           command: python setup.py bdist_wheel
    - run:
         name: Upload to pypi
         command: twine upload dist/*
