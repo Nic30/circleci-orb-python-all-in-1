@@ -13,6 +13,9 @@ steps:
    - run:
         name: Make packages
         command: |
+          if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
+              mv "removed_because_of_coverage_$MODULE_NAME" $MODULE_NAME;
+          fi
           python setup.py sdist
           python setup.py bdist_wheel
    - run:
