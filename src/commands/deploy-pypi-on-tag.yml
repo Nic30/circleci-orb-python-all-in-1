@@ -10,6 +10,9 @@ steps:
               if [ "$PYPI_USER" == "" ]; then
                  echo "PYPI_USER not specified" && exit 1
               fi
+              if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
+                 mv "removed_because_of_coverage_$MODULE_NAME" $MODULE_NAME;
+              fi
               pip install twine
               # Init .pypirc
               echo -e "[pypi]" >> ~/.pypirc
