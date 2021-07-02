@@ -12,31 +12,31 @@ parameters:
 
 steps:
   - run:
-       command: pip install twine
+      command: pip install twine
   - run:
-       name: Init .pypirc
-       command: |
-         echo -e "[pypi]" >> ~/.pypirc
-         echo -e "username = $PYPI_USER" >> ~/.pypirc
-         echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
+      name: Init .pypirc
+      command: |
+        echo -e "[pypi]" >> ~/.pypirc
+        echo -e "username = $PYPI_USER" >> ~/.pypirc
+        echo -e "password = $PYPI_PASSWORD" >> ~/.pypirc
   - run:
-       name: Prepare files
-       command: |
-         if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
-             mv "removed_because_of_coverage_$MODULE_NAME" "$MODULE_NAME"
-         fi
+      name: Prepare files
+      command: |
+        if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
+            mv "removed_because_of_coverage_$MODULE_NAME" "$MODULE_NAME"
+        fi
   - when:
-     condition: << parameters.src >>
-     steps:
-       - run:
-          name: Make src packages
-          command: python setup.py sdist
+      condition: << parameters.src >>
+      steps:
+        - run:
+            name: Make src packages
+            command: python setup.py sdist
   - when:
-     condition: << parameters.bin >>
-     steps:
-       - run:
-          name: Make bin packages
-          command: python setup.py bdist_wheel
+      condition: << parameters.bin >>
+      steps:
+        - run:
+            name: Make bin packages
+            command: python setup.py bdist_wheel
   - run:
-       name: Upload to pypi
-       command: twine upload dist/*
+      name: Upload to pypi
+      command: twine upload dist/*
