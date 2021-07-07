@@ -68,7 +68,12 @@ steps:
                fi
         - run:
             name: Upload coverage to coveralls.io
-            command: coveralls
+            command: |
+               if  [ -z "$CIRCLE_PULL_REQUEST" ]; then
+                  coveralls
+               else
+                  echo "[INFO] Skipping the coverage upload because this is a pull request $CIRCLE_PULL_REQUEST"
+               fi
         #- run:
         #    name: Upload coverage to codecov.io
         #    command: codecov
