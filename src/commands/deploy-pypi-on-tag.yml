@@ -10,7 +10,10 @@ parameters:
     type: boolean
     default: true
     description: "generate source package using setup.py sdist"
-
+  build:
+    type: boolean
+    default: false
+    description: "build using tool called build"
 steps:
   - run:
       name: Upload packages to PYPI if git tag is in format ^v[0-9]+(\\.[0-9]+)*$
@@ -33,6 +36,9 @@ steps:
             fi
             if [ "<< parameters.bin >>" == "true" ]; then
                 python setup.py bdist_wheel
+            fi
+            if [ "<< parameters.build >>" == "true" ]; then
+                 python -m build .
             fi
             # Upload to pypi
             twine upload dist/*

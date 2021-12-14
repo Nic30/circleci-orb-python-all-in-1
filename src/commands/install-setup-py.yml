@@ -70,7 +70,7 @@ steps:
                if [ -f "doc/requirements.txt" ]; then
                   pip install -r doc/requirements.txt;
                fi;
-               python setup.py install <<parameters.build-args>> ;
+               pip install . <<parameters.build-args>> ;
   - when:
       condition: <<parameters.rm-package-dir>>
       steps:

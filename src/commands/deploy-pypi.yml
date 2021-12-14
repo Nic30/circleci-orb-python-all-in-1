@@ -9,6 +9,10 @@ parameters:
     type: boolean
     default: true
     description: "generate source package using setup.py sdist"
+  build:
+    type: boolean
+    default: false
+    description: "build using tool called build"
 
 steps:
   - run:
@@ -37,6 +41,14 @@ steps:
         - run:
             name: Make bin packages
             command: python setup.py bdist_wheel
+  - when:
+      condition: << parameters.build >>
+      steps:
+        - run:
+            name: Make src package
+            command: |
+              pip install build
+              python -m build .
   - run:
       name: Upload to pypi
       command: twine upload dist/*

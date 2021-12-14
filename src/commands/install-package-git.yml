@@ -24,6 +24,6 @@ steps:
          if [ -f "doc/requirements.txt" ]; then
             pip install --user -r doc/requirements.txt ;
          fi;
-         python setup.py install --user ;
+         pip install --user .;
          popd;
          popd;
