@@ -1,7 +1,7 @@
 version: 2.1
 
 orbs:
-  python-all-in-1: nic30/python-all-in-1@<<pipeline.parameters.dev-orb-version>>
+  #python-all-in-1: nic30/python-all-in-1@<<pipeline.parameters.dev-orb-version>>
   orb-tools: circleci/orb-tools@10.0
 
 
