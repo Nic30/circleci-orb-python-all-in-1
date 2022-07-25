@@ -35,7 +35,7 @@ steps:
         - run:
             name: Run test and collect coverage
             command: |
-              coverage run -m $TEST_SUITE_PATH
+              python -m coverage run -m $TEST_SUITE_PATH
         - run:
             name: Convert paths of installed package to paths in git in coverage reports
             command: |
@@ -70,7 +70,7 @@ steps:
             name: Upload coverage to coveralls.io
             command: |
                if  [ -z "$CIRCLE_PULL_REQUEST" ]; then
-                  coveralls
+                  python -m coveralls
                else
                   echo "[INFO] Skipping the coverage upload because this is a pull request $CIRCLE_PULL_REQUEST"
                fi
