@@ -5,7 +5,7 @@ description: >
 
 steps:
   - run:
-      name: Filter lcov outputs for scikit-build and upload it to coveralls.io
+      name: Filter lcov outputs and upload it to coveralls.io
       command: |
           if [ -d "removed_because_of_coverage_$MODULE_NAME" ]; then
              mv "removed_because_of_coverage_$MODULE_NAME" $MODULE_NAME;
