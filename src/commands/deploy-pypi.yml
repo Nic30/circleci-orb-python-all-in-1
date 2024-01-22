@@ -16,6 +16,7 @@ parameters:
 
 steps:
   - run:
+      name: "Install twine"
       command: pip install twine
   - run:
       name: Init .pypirc
