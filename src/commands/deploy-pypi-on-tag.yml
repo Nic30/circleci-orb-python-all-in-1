@@ -14,6 +14,10 @@ parameters:
     type: boolean
     default: false
     description: "build using tool called build"
+  build_extra_args:
+    type: string
+    default: ""
+    description: "extra arguments passed when invoking build"
 steps:
   - run:
       name: Upload packages to PYPI if git tag is in format ^v[0-9]+(\\.[0-9]+)*$
@@ -38,7 +42,7 @@ steps:
                 python setup.py bdist_wheel
             fi
             if [ "<< parameters.build >>" == "true" ]; then
-                 python -m build .
+                 python -m build . << parameters.bin >>
             fi
             # Upload to pypi
             twine upload dist/*
