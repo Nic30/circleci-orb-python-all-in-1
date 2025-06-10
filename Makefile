@@ -7,5 +7,6 @@ docs-index:
 	> docs/index.md
 
 orb-validate:
+	circleci config validate .circleci/config.yml
 	circleci config pack src/ > orb.yml
 	circleci orb validate orb.yml
