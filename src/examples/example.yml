@@ -7,17 +7,21 @@ usage:
   version: 2.1
   orbs:
     py: nic30/python-all-in-1@0.3.1
-    python: circleci/python@0.2.1
+    python: circleci/python@3.1.0
   jobs:
     install-and-test:
-      executor: python/default
+      executor:
+        name: python/default
+        tag: '3.12.11' # https://circleci.com/developer/images/image/cimg/python
       steps:
         - checkout
         - py/install-setup-py
         - py/test-and-coverage
 
     deploy:
-      executor: python/default
+      executor:
+        name: python/default
+        tag: '3.12.11' # https://circleci.com/developer/images/image/cimg/python
       steps:
         - py/deploy-pypi
 
