@@ -12,7 +12,7 @@ usage:
     install-and-test:
       executor:
         name: python/default
-        tag: '3.12.11' # https://circleci.com/developer/images/image/cimg/python
+        tag: '3.13.7' # https://circleci.com/developer/images/image/cimg/python
       steps:
         - checkout
         - py/install-setup-py
@@ -21,7 +21,7 @@ usage:
     deploy:
       executor:
         name: python/default
-        tag: '3.12.11' # https://circleci.com/developer/images/image/cimg/python
+        tag: '3.13.7' # https://circleci.com/developer/images/image/cimg/python
       steps:
         - py/deploy-pypi
 
